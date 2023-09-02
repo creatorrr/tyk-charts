@@ -30,7 +30,7 @@ spec:
       initContainers:
         - name: sleep-container
           image: busybox:1.28
-          command: ['sh', '-c', 'echo Sleeping for 5 mins! && sleep 300']
+          command: ['sh', '-c', 'echo Sleeping for 2 mins! && sleep 120']
 
       containers:
         - name: bootstrap-tyk-post-install
@@ -111,4 +111,4 @@ spec:
       restartPolicy: Never
       terminationGracePeriodSeconds: 0
 {{- end }}
-      
+
