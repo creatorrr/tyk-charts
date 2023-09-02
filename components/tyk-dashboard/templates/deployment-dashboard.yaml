@@ -30,7 +30,7 @@ spec:
       {{ toYaml .Values.dashboard.podAnnotations | nindent 8 }}
       {{- end }}
       {{- if .Values.dashboard.enableIstioIngress }}
-        traffic.sidecar.istio.io/excludeInboundPorts: "{{ .Values.global.servicePorts.dashboard }}"
+        traffic.sidecar.istio.io/excludeInboundPorts: "{{ .Values.global.targetPorts.dashboard }}"
         traffic.sidecar.istio.io/includeInboundPorts: ""
       {{- end }}
         checksum/secrets: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
@@ -109,7 +109,7 @@ spec:
             value: "{{ .Values.dashboard.enableMultiOrgUsers }}"
           ## DEFAULT TYK CONFIGURATION END
           - name: TYK_DB_LISTENPORT
-            value: "{{ .Values.global.servicePorts.dashboard }}"
+            value: "{{ .Values.global.targetPorts.dashboard }}"
           # Legacy support for Redis Cluster driver. Driver dropped in v3.0.0.
           - name: REDIGOCLUSTER_SHARDCOUNT
             value: "128"
@@ -117,7 +117,7 @@ spec:
             # this needs to be setup from values
             value: {{ include "tyk-dashboard.gateway_host" .}}
           - name: TYK_DB_TYKAPI_PORT
-            value: "{{ .Values.global.servicePorts.dashboard }}"
+            value: "{{ .Values.global.servicePorts.gateway }}"
           - name: TYK_DB_TYKAPI_SECRET
             valueFrom:
               secretKeyRef:
@@ -138,7 +138,7 @@ spec:
               secretKeyRef:
                 name: {{ if .Values.global.secrets.useSecretName }} {{ .Values.global.secrets.useSecretName }} {{ else }} secrets-{{ include "tyk-dashboard.fullname" . }} {{ end}}
                 key: DashLicense
-            
+
           - name: TYK_DB_REDISADDRS
             value: {{ include "tyk-dashboard.redis_url" . | quote }}
           - name: TYK_DB_ENABLECLUSTER
@@ -152,7 +152,7 @@ spec:
             value: "{{ default "false" .Values.global.redis.useSSL }}"
           - name: TYK_DB_REDISSSLINSECURESKIPVERIFY
             value: "true"
-            
+
           - name: TYK_DB_HTTPSERVEROPTIONS_USESSL
             value: "{{ .Values.global.tls.dashboard }}"
 
@@ -203,7 +203,7 @@ spec:
 {{ toYaml .Values.dashboard.resources | indent 12 }}
         command: ["/opt/tyk-dashboard/tyk-analytics"]
         ports:
-        - containerPort: {{ .Values.global.servicePorts.dashboard }}
+        - containerPort: {{ .Values.global.targetPorts.dashboard }}
         volumeMounts:
           {{- if .Values.dashboard.mounts }}
           {{- range $secret := .Values.dashboard.mounts }}
@@ -218,7 +218,7 @@ spec:
           httpGet:
             scheme: "HTTP{{ if .Values.global.tls.dashboard }}S{{ end }}"
             path: /
-            port: {{ .Values.global.servicePorts.dashboard }}
+            port: {{ .Values.global.targetPorts.dashboard }}
           initialDelaySeconds: 10
           periodSeconds: 2
           timeoutSeconds: 3
@@ -227,7 +227,7 @@ spec:
           httpGet:
             scheme: "HTTP{{ if .Values.global.tls.dashboard }}S{{ end }}"
             path: /
-            port: {{ .Values.global.servicePorts.dashboard }}
+            port: {{ .Values.global.targetPorts.dashboard }}
           initialDelaySeconds: 10
           periodSeconds: 10
           timeoutSeconds: 3

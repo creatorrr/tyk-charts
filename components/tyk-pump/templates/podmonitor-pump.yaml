@@ -14,7 +14,7 @@ spec:
       app: pump-{{ include "tyk-pump.fullname" . }}
   endpoints:
     - port: tyk-pump-port
-      interval: "30"
+      interval: "30s"
   podMetricsEndpoints:
     - port: tyk-pump-port
 {{ end }}
