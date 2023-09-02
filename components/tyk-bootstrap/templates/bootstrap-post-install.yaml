@@ -27,6 +27,11 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: k8s-bootstrap-role
+      initContainers:
+        - name: sleep-container
+          image: busybox:1.28
+          command: ['sh', '-c', 'echo Sleeping for 5 mins! && sleep 300']
+
       containers:
         - name: bootstrap-tyk-post-install
           image: tykio/tyk-k8s-bootstrap-post:latest
