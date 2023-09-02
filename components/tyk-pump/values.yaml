@@ -203,6 +203,7 @@ pump:
       # for Tyk Pump.
       enabled: false
       apiVersion: monitoring.coreos.com/v1
+      kind: PodMonitor
       # podMonitorSelector represents a podMonitorSelector of your Prometheus resource. So that
       # your Prometheus resource can select PodMonitor objects based on selector defined here.
       # Please set this field to the podMonitorSelector field of your monitoring.coreos.com/v1

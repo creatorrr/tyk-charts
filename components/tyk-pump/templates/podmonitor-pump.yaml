@@ -1,7 +1,7 @@
 {{ if has "prometheus" .Values.pump.backend }}
 {{ if .Values.pump.prometheusPump.prometheusOperator.enabled }}
 apiVersion: {{ .Values.pump.prometheusPump.prometheusOperator.apiVersion }}
-kind: PodMonitor
+kind: {{ .Values.pump.prometheusPump.prometheusOperator.kind }}
 metadata:
   name: tyk-pump-podmonitor-{{ include "tyk-pump.fullname" . }}
   labels:
@@ -12,6 +12,9 @@ spec:
   selector:
     matchLabels:
       app: pump-{{ include "tyk-pump.fullname" . }}
+  endpoints:
+    - port: tyk-pump-port
+      interval: 30
   podMetricsEndpoints:
     - port: tyk-pump-port
 {{ end }}
