@@ -16,7 +16,7 @@ spec:
   type: {{ .Values.dashboard.service.type }}
   ports:
   - port: {{ .Values.global.servicePorts.dashboard }}
-    targetPort: {{ .Values.global.servicePorts.dashboard }}
+    targetPort: {{ .Values.global.targetPorts.dashboard }}
     protocol: TCP
     name: http
   selector:

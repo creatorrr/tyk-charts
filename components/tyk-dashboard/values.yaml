@@ -19,6 +19,12 @@ global:
     # Set a password or a random one will be assigned.
     password: "123456"
   servicePorts:
+    # The port at which the dashboard service listens at
+    dashboard: 3000
+    # The port at which the gateway service listens at
+    gateway: 8080
+
+  targetPorts:
     # The port at which the dashboard service can be found
     dashboard: 3000
     # The port at which the gateway service can be found
@@ -168,7 +174,8 @@ dashboard:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-  resources: {}
+  resources:
+    {}
     # We usually recommend not to specify default resources and to leave this
     # as a conscious choice for the user. This also increases chances charts
     # run on environments with little resources, such as Minikube. If you do

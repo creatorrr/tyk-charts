@@ -1,6 +1,6 @@
 {{ if has "prometheus" .Values.pump.backend }}
 {{ if .Values.pump.prometheusPump.prometheusOperator.enabled }}
-apiVersion: monitoring.coreos.com/v1
+apiVersion: {{ .Values.pump.prometheusPump.prometheusOperator.apiVersion }}
 kind: PodMonitor
 metadata:
   name: tyk-pump-podmonitor-{{ include "tyk-pump.fullname" . }}

@@ -14,10 +14,16 @@ nameOverride: ""
 fullnameOverride: ""
 
 global:
-  servicePorts:
+  targetPorts:
     # The port at which the dashboard service can be found at
     dashboard: 3000
     # The port at which the gateway service can be found at
+    gateway: 8080
+
+  servicePorts:
+    # The port at which the dashboard service listens at
+    dashboard: 3000
+    # The port at which the gateway service listens at
     gateway: 8080
 
   tls:
@@ -105,7 +111,6 @@ global:
     # Disables SSL certificate verification
     sslInsecureSkipVerify: true
 
-
 gateway:
   # The hostname to bind the Gateway to.
   hostName: tyk-gw.local
@@ -117,11 +122,11 @@ gateway:
     # The name of the secret which should contain the TLS certificate you want to use with the gateway deployment
     secretName: tyk-default-tls-secret
 
-  # kind is type of k8s object to be created for gateway. 
+  # kind is type of k8s object to be created for gateway.
   kind: Deployment
 
   # podAnnotations is annotations to be added to Tyk Gateway pod.
-  # It takes key-value pairs. 
+  # It takes key-value pairs.
   # There are no required annotation field for Tyk Gateway.
   #
   # podAnnotations:
